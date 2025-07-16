@@ -50,27 +50,27 @@ app.use('/api/dashboard', dashboardRoutes);
 
 // Serve HTML files
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  res.sendFile(path.join(__dirname, '../portfolio/index.html'));
 });
 
 app.get('/blog', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/blog.html'));
+  res.sendFile(path.join(__dirname, '../portfolio/blog.html'));
 });
 
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dashboard.html'));
+  res.sendFile(path.join(__dirname, '../portfolio/dashboard.html'));
 });
 
 app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/login.html'));
+  res.sendFile(path.join(__dirname, '../portfolio/login.html'));
 });
 
 app.get('/register.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/register.html'));
+  res.sendFile(path.join(__dirname, '../portfolio/register.html'));
 });
 
 app.get('/createpost.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/createpost.html'));
+  res.sendFile(path.join(__dirname, '../portfolio/createpost.html'));
 });
 
 // Error handling middleware

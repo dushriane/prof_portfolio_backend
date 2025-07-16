@@ -10,7 +10,7 @@ const router = express.Router();
 // Multer setup for profile picture upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../frontend/images/profiles'));
+    cb(null, path.join(__dirname, '../../portfolio/images/profiles'));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
