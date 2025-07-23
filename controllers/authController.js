@@ -10,9 +10,12 @@ dotenv.config();
 
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, bio, profilePicture } = req.body;
-    if (!username || !email || !password) {
-      return res.status(400).json({ error: 'Username, email, and password are required.' });
+    const { username, email, password, confirmPassword } = req.body;
+    if (!username || !email || !password || !confirmPassword) {
+      return res.status(400).json({ error: 'Username, email, password, and confirm password are required.' });
+    }
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match.' });
     }
     // Check if user exists
     const existingUser = await User.findOne({ $or: [ { username }, { email } ] });
@@ -24,8 +27,6 @@ exports.register = async (req, res) => {
       username,
       email,
       password,
-      bio: bio || '',
-      profilePicture: profilePicture || '',
       role: 'user'
     });
     await user.save();
