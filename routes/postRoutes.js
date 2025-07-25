@@ -13,6 +13,9 @@ router.post('/', auth, postController.createPost);
 router.put('/:idOrSlug', auth, postController.updatePost);
 router.delete('/:idOrSlug', auth, postController.deletePost);
 
+// Drafts (create post with published: false)
+router.post('/draft', auth, postController.createPost);
+
 // Likes
 router.post('/:postId/like', auth, userController.likePost);
 
