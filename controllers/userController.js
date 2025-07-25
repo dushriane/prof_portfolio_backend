@@ -104,3 +104,15 @@ exports.getUserComments = async (req, res) => {
     res.status(500).json({ error: 'Error fetching user comments' });
   }
 };
+
+// Dashboard stats
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const totalPosts = await Post.countDocuments();
+    const totalComments = await Comment.countDocuments();
+    res.json({ totalUsers, totalPosts, totalComments });
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching dashboard stats' });
+  }
+};
