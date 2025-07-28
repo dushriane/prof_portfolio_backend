@@ -44,9 +44,15 @@ exports.saveMessage = async (req, res) => {
       });
     }
     
-    res.status(200).json({ success: true });
+    res.status(200).json({ 
+      success: true, 
+      message: 'Message saved successfully' 
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to save message' });
+    res.status(500).json({ 
+      success: false,
+      message: error.message || 'Failed to save message' 
+    });
   }
 };
