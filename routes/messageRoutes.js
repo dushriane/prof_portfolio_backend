@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const messageController = require('../controllers/messageController');
-const { protect } = require('../middleware/authMiddleware');
+const {auth} = require('../middlewares/auth')
 
-router.post('/', messageController.saveMessage);
-router.get('/', protect, messageController.getMessages);
-router.put('/:id/read', protect, messageController.markAsRead);
-router.delete('/:id', protect, messageController.deleteMessage);
+
+router.post('/', messageController.validateMessage, auth, messageController.saveMessage);
+router.get('/', auth, messageController.getMessages);
+router.put('/:id/read', auth, messageController.markAsRead);
+// router.delete('/:id', auth, messageController.deleteMessage);
 
 module.exports = router;
