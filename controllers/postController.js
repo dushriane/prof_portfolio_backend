@@ -162,3 +162,18 @@ exports.searchPosts = async (req, res) => {
     res.status(500).json({ error: 'Error searching posts' });
   }
 };
+
+exports.incrementView = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+    res.json({ views: post.views });
+  } catch (error) {
+    res.status(500).json({ error: 'Error incrementing view count' });
+  }
+};
