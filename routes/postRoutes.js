@@ -22,7 +22,7 @@ router.post('/:postId/like', auth, userController.likePost);
 // Comments
 router.get('/:postId/comments', commentController.getCommentsForPost);
 router.post('/:postId/comments', auth, commentController.addComment);
-router.post('/:postId/comments/:parentId/reply', auth, commentController.replyToComment);
+router.post('/:postId/comments/:commentId/reply', auth, commentController.replyToComment);
 router.delete('/comments/:id', auth, commentController.deleteComment);
 router.post('/comments/:id/like', auth, commentController.likeComment);
 router.post('/comments/:id/hide', auth, commentController.hideComment);
