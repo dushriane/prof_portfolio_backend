@@ -42,6 +42,7 @@ app.use('/api/messages',require('./routes/messageRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
+app.use('/api/export', require('./routes/exportRoutes'));
 
 // Error handler
 app.use((err, req, res, next) => {

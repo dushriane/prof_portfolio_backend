@@ -116,3 +116,18 @@ exports.getDashboardStats = async (req, res) => {
     res.status(500).json({ error: 'Error fetching dashboard stats' });
   }
 };
+
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { bio, profilePic } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { bio, profilePic },
+      { new: true }
+    );
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+};
