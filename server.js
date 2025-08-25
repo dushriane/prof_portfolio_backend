@@ -17,6 +17,8 @@ const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:3000',
   'http://localhost:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
   'https://arnprofessionalporfolio.netlify.app'
 ];
 
@@ -33,12 +35,6 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-
-// app.use(cors({
-//   origin: ['http://127.0.0.1:5500','http://localhost:5500','http://127.0.0.1:3000','http://localhost:3000', 'https://arnprofessionalporfolio.netlify.app'],
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   credentials: true
-// }));
 
 // Middleware
 app.use(helmet());
