@@ -13,27 +13,88 @@ function slugify(text) {
 
 exports.createPost = async (req, res) => {
   try {
-    const { title, content, excerpt, imageUrl, tags, category, published } = req.body;
+    console.log('Request body:', req.body);
+    console.log('Request files:', req.files);
+    console.log('User:', req.user);
+
+    const { title, content, excerpt, category, published } = req.body;
     if (!title || !content || !excerpt || !category) {
-      return res.status(400).json({ error: 'Title, content, excerpt, and category are required.' });
+      return res.status(400).json({ 
+        error: 'Title, content, excerpt, and category are required.',
+        received: { title: !!title, content: !!content, excerpt: !!excerpt, category: !!category }
+      });
     }
+    
+    // Parse tags if they exist
+    let tags = [];
+    if (req.body.tags) {
+      try {
+        // Handle both JSON string and regular string
+        if (typeof req.body.tags === 'string' && req.body.tags.startsWith('[')) {
+          tags = JSON.parse(req.body.tags);
+        } else if (typeof req.body.tags === 'string') {
+          tags = req.body.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+        } else if (Array.isArray(req.body.tags)) {
+          tags = req.body.tags;
+        }
+      } catch (error) {
+        console.error('Error parsing tags:', error);
+        tags = [];
+      }
+    }
+
+    // Handle image upload if file is present
+    let imageUrl = '';
+    if (req.files && req.files.image) {
+      // You'll need to implement file upload logic here
+      // For now, we'll skip image upload to test post creation
+      console.log('Image file received:', req.files.image.name);
+      // imageUrl = '/uploads/' + req.files.image.name; // Implement actual upload logic
+    } else if (req.file) {
+      // If using multer single file upload
+      imageUrl = '/uploads/' + req.file.filename;
+    }
+
     const slug = slugify(title);
+    
+    // Convert published to boolean
+    const isPublished = published === 'true' || published === true;
+    
     const post = new Post({
-      title,
+      title: title.trim(),
       slug,
       content,
-      excerpt,
-      imageUrl: imageUrl || '',
-      tags: tags || [],
-      category,
+      excerpt: excerpt.trim(),
+      imageUrl,
+      tags,
+      category: category.trim(),
       author: req.user._id,
-      published: published || false,
-      publishedAt: published ? new Date() : null
+      published: isPublished,
+      publishedAt: isPublished ? new Date() : null
     });
+
+    console.log('Creating post with data:', {
+      title: post.title,
+      slug: post.slug,
+      category: post.category,
+      tags: post.tags,
+      published: post.published,
+      author: post.author
+    });
+
     await post.save();
+    
+    // Populate author data before sending response
+    await post.populate('author', 'username email');
+    
     res.status(201).json(post);
   } catch (error) {
-    res.status(500).json({ error: 'Error creating post' });
+    console.error('Error creating post:', error);
+    res.status(500).json({ 
+      error: 'Error creating post',
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 };
 
