@@ -44,6 +44,8 @@ router.post('/', auth, upload.single('image'), postController.createPost);
 router.put('/:idOrSlug', auth, upload.single('image'), postController.updatePost);
 router.delete('/:idOrSlug', auth, postController.deletePost);
 
+router.post('/upload-image', auth, upload.single('image'), postController.uploadImage);
+
 // Drafts (create post with published: false)
 router.post('/draft', auth, upload.single('image'), postController.createPost);
 

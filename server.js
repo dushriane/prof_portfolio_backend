@@ -48,7 +48,7 @@ connectDB();
 
 // Serve static uploads
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
